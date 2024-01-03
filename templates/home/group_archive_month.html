@@ -1,0 +1,34 @@
+<!-- home/group_archive_month.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Groups for {{ month|date:'F Y' }}</h1>
+    <table>
+        <tr>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+        </tr>
+        {% for week in calendar %}
+            <tr>
+                {% for day in week %}
+                    <td>
+                        {% if day %}
+                            {{ day.day }}
+                            <ul>
+                                {% for group in day.groups %}
+                                    <li>{{ group.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <span class="col-4">
+        <select id="teacher_id" class="form-control">
+            <option>All</option>
+            {% for teacher in teachers %}
+                <option value="{{ teacher.id }}">{{ teacher.user.first_name }}</option>
+            {% endfor %}
+                        
+        </select>
+        
+        
+    </span>
+    <span class="col-4">
+        <input type="date" id="start_date" class="form-control">
+        
+        
+    </span>
+    <span class="col-4">
+        <input type="date" id="end_date" class="form-control">
+        
+        
+    </span>
+</div>
+<table  class="table table-bordered mt-3">
+<thead>
+    <tr><th>Teacher</th><th>Total Students</th><th>Total Payment</th></tr>
+
+</thead>   
+<tbody id="my_table">
+    {% for item in data %}
+    <tr>
+        <td>{{ item.teacher }}</td>
+        <td>{{ item.total_students }}</td>
+        <td>{{ item.total_payment }}</td>
+    </tr>
+{% endfor %}
+</tbody> 
+</table>
+
+
+{% endblock content %}  
+
+{% block script %}
+    <script>
+        $(document).ready(function() {
+            function update_data() {
+                var teacher_id = $('#teacher_id').val();
+                if (teacher_id == 'all') {
+                    teacher_id = null;
+                }
+                var start_date = $('#start_date').val();
+                var end_date = $('#end_date').val();
+                $.get("{% url 'salary_filter' %}", {teacher_id: teacher_id, start_date: start_date, end_date: end_date}, function(data) {
+                    var tbody = '';
+                    $('#my_table').empty()
+                    for (var i = 0; i < data.length; i++) {
+                        tbody += '<tr><td>' + data[i].teacher + '</td><td>' + data[i].total_students + '</td><td>' + data[i].total_payment + '</td></tr>';
+                    }
+                    $('#my_table').append(tbody);
+                });
+            }
+            $('#teacher_id').change(update_data);
+            $('#start_date').change(update_data);
+            $('#end_date').change(update_data);
+
+        });
+    </script>
+{% endblock script %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="filter alert">
+  
+    <input type="checkbox" class="btn-check" name="last_month_created"  id="btn-check2"  autocomplete="off" />
+    <label class="btn btn-primary" for="btn-check2">oxirgi oy</label>
+    
+    <input type="checkbox" class="btn-check" name="min_payments" id="btn-check3" autocomplete="off" />
+    <label class="btn btn-primary"  for="btn-check3">eng kam to'lov qilganlar</label>
+    <input type="checkbox" name="active_and_unactive_group" id="btn-check" autocomplete="off" />
+    <label class="" for="btn-check">aktive emas guruhlar</label>
+    
+    <select name="teachers" class="form-control" id="teachers">
+
+        <option value=''>o'qituvchilar</option>
+        {% for teachers in teachers %}
+            <option value="{{teachers.id}}">{{teachers}}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class='table-responsive'>
+
+<table class="table table-bordered ">
+    <thead>
+        <tr>
+            <th>Guruh</th>
+            <th>studentlar soni</th>
+            <th>umumiy </th>
+            <th>o'qituvchi </th>
+            <th>boshlangan</th>
+            <th>status</th>
+            <th>tahrir</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for group in groups %}
+            <tr>
+                <td>{{ group.name }}</td>
+                <td>{{ group.num_students }}</td>
+                <td>{{ group.total_payments }}</td>
+                <td>{{ group.teacher }}</td>
+                <td>{{ group.start_date }}</td>
+                <td>
+                    {% if group.end_date == None %}
+                        active
+                    {% else %}
+                    {{ group.end_date }}
+                    
+
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock content %}
+{% block script %}
+
+<script>
+    
+</script>
+{% endblock script %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-8 m-md-auto alert alert-danger mx-auto">
+         <form id="search-form">
+            <input type="text" id="searchInput" name="search" class="form-control col-11 p-2 m-3" placeholder="qidirish">
+
+        </form>
+        
+        <ul id="results" class="alert alert-success mt-5 list-unstyled">
+            <li>natijalar</li>
+        </ul>
+        
+    </div>
+  
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+        $('#searchInput').on('keyup', function() {
+            var searchValue = $('#searchInput').val();
+            var resultsList = $('#results');
+            if (searchValue.length === 0) {
+                resultsList.empty();
+                resultsList.append('<li>kim tolov qilmoqchi</li>');
+            } else {
+                $.getJSON('searchStudents/', {search: searchValue}, function(data) {
+                    resultsList.empty();
+                    if (data.length > 0) {
+                        data.forEach(function(result) {
+
+                            var studentUrl = '/income/paymentStudents/' + result.id;
+                            resultsList.append('<li class="alert alert-primary"><a href="' + studentUrl + '">' + result.first_name + '</a> - Group: ' + result.group__name + '</li>');
+                        });
+                    } else {
+                        resultsList.append('<li>bu student topilmadi</li>');
+                    }
+                });
+            }
+        });
+    })
+    
+    
+    
+  
+</script>
+{% endblock script %}

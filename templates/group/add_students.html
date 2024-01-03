@@ -1,0 +1,13 @@
+<form method="POST">
+    {% csrf_token %}
+    <h2>{{ group.name }}</h2>
+    <ul>
+        {% for student in students %}
+            <li>
+                <input type="checkbox" name="students" value="{{ student.id }}">
+                {{ student.first_name }} {{ student.last_name }}
+            </li>
+        {% endfor %}
+    </ul>
+    <input type="submit" value="Add Students">
+</form>

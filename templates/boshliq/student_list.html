@@ -1,0 +1,213 @@
+{% extends "base.html" %} {% block content %}
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between">
+        <div class="header-title">
+          <h4 class="card-title">User List</h4>
+          <form id="filter-form">
+            <label for="course">Course:</label>
+            <select name="course" id="course">
+                <option value="">All</option>
+                <!-- Siz bu yerda barcha kurslarni chiqarishingiz mumkin -->
+                {% for allCourse in allCourse %}
+                 <option value="">{{allCourse.name}}</option>
+                  
+                {% endfor %}
+            </select>
+        
+            <label for="payment_status">Payment status:</label>
+            <select name="payment_status" id="payment_status">
+                <option value="">All</option>
+                <option value="paid">Paid</option>
+                <option value="not_paid">Not paid</option>
+            </select>
+        
+            <button type="submit">Filter</button>
+        </form>
+        </div>
+      </div>
+      <div class="card-body px-0">
+        <div class="table-responsive">
+          <div
+            id="user-list-table_wrapper"
+            class="dataTables_wrapper dt-bootstrap4 no-footer"
+          > 
+          
+            <div class="table-responsive border-bottom my-3">
+        
+
+              <table
+                id="user-list-table"
+                class="table table-striped dataTable no-footer"
+                role="grid"
+                data-toggle="data-table"
+                aria-describedby="user-list-table_info"
+              >
+                <thead>
+                  <tr class="ligth" role="row">
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="user-list-table"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Profile: activate to sort column ascending"
+                      style="width: 63.625px"
+                    >
+                      ism
+                    </th>
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="user-list-table"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Name: activate to sort column ascending"
+                      style="width: 90px"
+                    >
+                      kurs
+                    </th>
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="user-list-table"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Contact: activate to sort column ascending"
+                      style="width: 142.4px"
+                    >
+                      Guruh
+                    </th>
+                    <th
+                      class="sorting sorting_asc"
+                      tabindex="0"
+                      aria-controls="user-list-table"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Email: activate to sort column descending"
+                      style="width: 173.625px"
+                      aria-sort="ascending"
+                    >
+                      to'lov
+                    </th>
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="user-list-table"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Country: activate to sort column ascending"
+                      style="width: 75.7875px"
+                    >
+                      kelgan
+                    </th>
+                  
+                    <th
+                      class="sorting"
+                      tabindex="0"
+                      aria-controls="user-list-table"
+                      rowspan="1"
+                      colspan="1"
+                      aria-label="Country: activate to sort column ascending"
+                      style="width: 75.7875px"
+                    >
+                    qo'shimcha
+                    </th>
+                  
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for student in students %}
+                      <tr class="odd">
+                        <td class="text-center">
+                          <a href="{% url 'student_detail' student.student.id %}">
+                            {{ student.student.first_name }}
+                        </a>                      
+                        </td>
+                        <td>
+                          {% for course in student.courses %}
+                            {{course.name}}
+                            {% if not forloop.last %}, {% endif %}
+                            
+                          {% endfor %}
+                        </td>
+                      
+                          <td>
+                              {% if not student.student.group.all %}
+                                  <span class="badge bg-danger">
+                                      Guruh yo'q
+                                  </span>
+                              {% else %}
+                                  <span class="badge bg-primary">
+                                      {% for group in student.student.group.all %}
+                                          {{ group }}
+                                          {% if not forloop.last %}, {% endif %}
+                                      {% endfor %}
+                                  </span>
+                              {% endif %}
+                          </td>
+                          <td class="sorting_1">
+                              {% for payment in student.payments %}
+                                  {{ payment.amount }}
+                                  {% if not forloop.last %}, {% endif %}
+                              {% endfor %}
+                          </td>
+                          <td>{{ student.student.applicant.registered_time }}</td>
+                          <td>
+                              {% if not student.student.group.all %}
+                                  <span class="badge bg-danger">
+                                      Guruhga qo'shish
+                                  </span>
+                              {% else %}
+                                  <span class="badge bg-success">
+                                      <a href="{% url 'student_group_change' student.student.id %}">Guruhni almashtirish</a>
+                                  </span>
+                              {% endif %}
+                          </td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+              
+              
+              </table>
+            </div>
+          
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block section %}
+
+<script>
+  $(document).ready(function() {
+      // Filter formani topamiz
+      var filterForm = $('#filter-form');
+      
+      // Filter formani submit qilganda
+      filterForm.on('submit', function(e) {
+          e.preventDefault();
+          
+          // Formdan ma'lumotlarni olib kelamiz
+          var course = $('#course').val();
+          var paymentStatus = $('#payment_status').val();
+          
+          // URL manzilini yaratamiz
+          var url = 'all_students/?';
+          if (course) {
+              url += 'course=' + course + '&';
+          }
+          if (paymentStatus) {
+              url += 'payment_status=' + paymentStatus;
+          }
+          
+          // Sahifani yangilaymiz
+          window.location.href = url;
+      });
+  });
+</script>
+
+{% endblock section %}

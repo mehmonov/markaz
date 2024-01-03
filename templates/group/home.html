@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mx-auto justify-content-center m-2">
+
+    {% for group in groups  %}
+    <div class="card col-3 col-md-6" style="width: 18rem;"> 
+        <div class="card-body">   
+            <h5 class="card-title">{{group.group.name}} </h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{group.group.start_date}}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">o'quvchilar soni {{group.student_count}} </h6>
+            <p class="card-text">
+                {% for day_of_week in group.group.day_of_week  %}
+                    {{day_of_week}}
+                {% endfor %}
+            </p>
+            <p>
+                {{group.group.teacher}}
+            </p>
+            <p>
+                {{group.group.course}}
+            </p>
+            <a href="#" class="card-link"></a > <br>
+                <a href="{% url 'group_detail' group_id=group.group.id%}" class="card-link">Guruhni
+
+                </a >
+        </div>
+    </div>
+        
+    {% endfor %}
+</div>
+{% endblock content %}

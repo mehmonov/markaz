@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="row ">
+
+    <div class="card col-10 mx-auto justify-content-between">
+            <form method="post">
+                {% if form.errors %}
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            <li>{{ field }}: {{ errors.as_text }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {% if field.field.widget.input_type == 'checkbox' %}
+                            {% for choice in field.field.choices %}
+                                <div class="form-check">
+                                    <input type="checkbox" name="{{ field.html_name }}" value="{{ choice.0 }}" class="form-check-input" id="{{ field.auto_id }}_{{ forloop.counter }}">
+                                    <label class="form-check-label" for="{{ field.auto_id }}_{{ forloop.counter }}">{{ choice.1 }}</label>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% render_field field class+="form-control" %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        keyingi
+                    </button>
+                    <div class="modal_verified">
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                            
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" value="Submit" class="btn btn-primary">jo'natish</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+            </form>
+
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+    <!-- In your template -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Get the current date
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#id_start_date').val(today);
+
+        $('#submit').on('click', function(e) {
+            e.preventDefault(); // prevent form submission
+            $('.modal_verified').modal('show'); // show the modal
+        });
+    });
+</script>
+
+
+{% endblock script %}

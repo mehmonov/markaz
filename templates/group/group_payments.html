@@ -1,0 +1,109 @@
+{% extends "base.html" %} {% block content %}
+<div class="col-sm-12">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <div class="header-title">
+        <h4 class="card-title">User List</h4>
+      </div>
+    </div>
+    <div class="card-body px-0">
+      <div class="table-responsive">
+        <div
+          id="user-list-table_wrapper"
+          class="dataTables_wrapper dt-bootstrap4 no-footer"
+        >
+         
+          <div class="table-responsive border-bottom my-3">
+      
+
+            <table
+              id="user-list-table"
+              class="table table-striped dataTable no-footer"
+              role="grid"
+              data-toggle="data-table"
+              aria-describedby="user-list-table_info"
+            >
+              <thead>
+                <tr class="ligth" role="row">
+                  <th
+                    class="sorting"
+                    tabindex="0"
+                    aria-controls="user-list-table"
+                    rowspan="1"
+                    colspan="1"
+                    aria-label="Profile: activate to sort column ascending"
+                    style="width: 63.625px"
+                  >
+                    ism
+                  </th>
+                  <th
+                    class="sorting"
+                    tabindex="0"
+                    aria-controls="user-list-table"
+                    rowspan="1"
+                    colspan="1"
+                    aria-label="Name: activate to sort column ascending"
+                    style="width: 90px"
+                  >
+                    kurs
+                  </th>
+                  <th
+                    class="sorting"
+                    tabindex="0"
+                    aria-controls="user-list-table"
+                    rowspan="1"
+                    colspan="1"
+                    aria-label="Contact: activate to sort column ascending"
+                    style="width: 142.4px"
+                  >
+                    Guruh
+                  </th>
+                  <th
+                    class="sorting sorting_asc"
+                    tabindex="0"
+                    aria-controls="user-list-table"
+                    rowspan="1"
+                    colspan="1"
+                    aria-label="Email: activate to sort column descending"
+                    style="width: 173.625px"
+                    aria-sort="ascending"
+                  >
+                    to'lov
+                  </th>
+                  <th
+                    class="sorting"
+                    tabindex="0"
+                    aria-controls="user-list-table"
+                    rowspan="1"
+                    colspan="1"
+                    aria-label="Country: activate to sort column ascending"
+                    style="width: 75.7875px"
+                  >
+                    muddat
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for payment in payments %}
+                    {% for student_payment in payment.payments %}
+                        <tr class="odd">
+                            <td class="text-center">{{ payment.student.first_name }} {{ payment.student.last_name }}</td>
+                            <td>{{ payment.group.course.name }}</td>
+                            <td>{{ payment.group.name }}</td>
+                            <td class="sorting_1">{{ student_payment.amount }}</td>
+                            <td>{{ student_payment.date }}</td>
+                          
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+            </table>
+          </div>
+        
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

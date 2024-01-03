@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+{% load widget_tweaks %}
+{% load static %}
+
+<form method="post" >
+ {% csrf_token %}
+<section class="vh-100" style="background-color: #508bfc;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <h3 class="mb-5">Sign in</h3>
+
+         
+            <div class="form-outline mb-4">
+              <label for="id_username">Username</label>
+              {% render_field form.username class="form-control form-control-lg"  placeholder="Username" %}
+          </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+              <label for="id_password">Password</label>
+              {% render_field form.password class="form-control form-control-lg" placeholder="Password" %}
+          </div>
+
+          <input type="submit" class="btn btn-danger" value="kirish" />
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form>
+</section>

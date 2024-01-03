@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    
+    <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
+        <div class="d-flex align-items-center">
+            <h4>O'qituvchi sahifasi</h4>
+            
+        </div>
+        <button type="button" class="btn btn-secondary">
+            <svg width="18" height="22" class="me-2" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7366 1.76175H5.08465C3.00465 1.75375 1.30065 3.41075 1.25065 5.49075V16.2277C1.20565 18.3297 2.87365 20.0697 4.97465 20.1147C5.01165 20.1147 5.04865 20.1157 5.08465 20.1147H13.0726C15.1626 20.0407 16.8146 18.3187 16.8026 16.2277V7.03775L11.7366 1.76175Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M11.4749 1.75V4.659C11.4749 6.079 12.6239 7.23 14.0439 7.234H16.7979" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M8.64185 14.9502V8.90918" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M6.29614 12.5947L8.64114 14.9497L10.9861 12.5947" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            Hisobotni yuklash
+        </button>
+    </div>
+    <div class="col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!-- Card -->
+                <div class="card alert alert-danger">
+                    <!-- Card content -->
+                    <div class="card-body">
+                    <!-- Title -->
+                    <h4 class="card-title"><a href="{% url 'attendance_student' %}">Bugun | Guruhlar</a></h4>
+                   
+                    <!-- Text -->
+                    <p class="card-text text-center alert alert-success ">
+                        
+                           {% for today_groups in today_groups %}
+                            {{today_groups}}  -- {{today_groups.time}} <br>
+                           {% endfor %}
+                    </p>
+                    <!-- Button -->
+                    </div>   
+                </div>
+                <!-- Card -->
+            </div>
+          
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!-- Card -->
+                <div class="card alert alert-primary">
+                    <!-- Card content -->
+                    <div class="card-body">
+                
+                    <!-- Title -->
+                    <h4 class="card-title">Bu oydagi to'lovlar</h4>
+                    <!-- Text -->
+                    <p class="card-text text-center ">
+                        {{num_payments}}  ta o'quvchi
+                    </p>
+                    <!-- Button -->
+                    </div>
+
+                </div>
+                <!-- Card -->
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!-- Card -->
+                <div class="card alert alert-success">
+                    <!-- Card content -->
+                    <div class="card-body">
+                
+                    <!-- Title -->
+                    <h4 class="card-title">Barcha guruhlarim</h4>
+                    <!-- Text -->
+                    <p class="card-text text-center ">
+                        
+                    </p>
+                    <!-- Button -->
+                   
+                
+                    </div>
+                
+                </div>
+                <!-- Card -->
+            </div>
+          
+        </div>
+    </div>
+   
+   
+    
+   
+</div>
+{% endblock content %}

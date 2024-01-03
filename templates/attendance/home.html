@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- attendance.html -->
+<form method="post">
+    {% csrf_token %}
+    <label for="group">Guruh:</label>
+    <select name="group" id="group">
+        {% for group in groups %}
+            <option value="{{ group.id }}">{{ group.name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="date">Sana:</label>
+    <input type="date" name="date" id="date">
+    <br>
+    <h3>O'quvchilar:</h3>
+    <ul>
+        {% for student in groups.0.students.all %}
+            <li>
+                {{ student.first_name }} {{ student.last_name }}
+                <input type="checkbox" name="present-{{ student.id }}" value="true">
+            </li>
+        {% endfor %}
+    </ul>
+    <input type="submit" value="Saqlash">
+</form>
+
+{% endblock content %}

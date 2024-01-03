@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="profile-img position-relative me-3 mb-3 mb-lg-0">
+                                <img src="{% static 'images/avatars/01.png' %}" class="img-fluid rounded-pill avatar-100" alt="profile-image">
+                            </div>
+                            <div class="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
+                                <h4 class="me-2 h4">{{student}}</h4>
+                                {% for group in student.group.all %}
+                                    <span>{{ group.name }}</span>
+                                  {% endfor %}
+                               
+                            </div>
+                        </div>
+                        <ul class="d-flex nav nav-pills mb-0 text-center profile-tab" data-toggle="slider-tab" id="profile-pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#profile-profile" role="tab" aria-selected="false">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#profile-activity" role="tab" aria-selected="false">Sarhisob</a>
+                            </li>
+                           
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-lg-6">
+            <div class="profile-content tab-content ">
+               
+                <div id="profile-activity" class="tab-pane fade">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">sarhisob</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
+                                <ul class="list-inline p-0 m-0">
+                                    <li>
+                                        <div class="timeline-dots timeline-dot1 border-primary text-primary"></div>
+                                        <h6 class="float-left mb-1">markazga kelgan</h6>
+                                        <small class="float-right mt-1">{{student.applicant.registered_time}}</small>
+                                        <div class="d-inline-block w-100">
+                                            <p>{{student.registered_by}}</p>
+                                        </div>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+                <div id="profile-profile" class="tab-pane fade active show">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="header-title">
+                                <h4 class="card-title">Profile</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="mt-3">
+                                    <h3 class="d-inline-block">{{student}}</h3>
+                                    {% for group in student.group.all %}
+                                    <p class="mb-0 text-primary">{{group.name}}</p>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="header-title">
+                                <h4 class="card-title">About User</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="user-bio">
+                               user haqida ma'lumot
+                            <div class="mt-2">
+                                <h6 class="mb-1">Applicant:</h6>
+                                <p>{{student.applicant.registered_time}}</p>
+                            </div>
+                            <div class="mt-2">
+                                <h6 class="mb-1">Joined:</h6>
+                                <p>{{student.start_day}}</p>
+                            </div>
+                            <div class="mt-2">
+                                <h6 class="mb-1">telefon 1:</h6>
+                                <p>{{student.phone_number}}</p>
+                            </div>
+                            <div class="mt-2">
+                                <h6 class="mb-1">telefon 2:</h6>
+                                {% if student.phone_number2 %}
+                                <p>{{student.phone_number2}}</p>
+                                {% else %}
+                                    kiritilmagan
+                                {% endif %}
+                            </div>
+                            <div class="mt-2">
+                                <h6 class="mb-1">email:</h6>
+
+                                {% if student.email %}
+                                <p>{{student.email}}</p>
+                                {% else %}
+                                    kiritilmagan
+                                {% endif %}
+                            </div>
+                            <div class="mt-2">
+                                <h6 class="mb-1">tug'ilgan joyi</h6>
+                                
+                                {% if student.birth_place %}
+                                <p>{{student.birth_place}}</p>
+                                {% else %}
+                                    kiritilmagan
+                                {% endif %}
+                            </div>
+                            <div class="mt-2">
+                                <h6 class="mb-1">kutib olgan admin:</h6>
+                                <p><a href="#" class="text-body">{{student.registered_by}}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+   
+
+{% endblock content %}

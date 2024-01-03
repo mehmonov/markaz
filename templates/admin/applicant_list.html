@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Filter form -->
+<form id="filter-form" class="row">
+    <select name="course" class="form-control-sm col-lg-3 col-md-4 p-2 m-3">
+        <option value="">Hamma kurslar</option>
+        {% for course in course %}
+            <option value="{{course.id}}">{{course}}</option>
+        {% endfor %}
+    </select>
+    <select name="preferred_time" class="form-control-sm col-lg-3 col-md-4 p-2 m-3">
+        <option value="">barcha vaqtlar</option>
+        <option value="morning">Abetdan oldin</option>
+        <option value="afternoon">Abetdan keyin</option>
+        <option value="anytime">Istalgan vaqt</option>
+    </select>
+    <input type="text" name="search" class="form-control-sm col-lg-3 col-md-4 p-2 m-3" placeholder="Search">
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+<!-- Applicants table -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ism</th>
+            <th>Kurs</th>
+            <th>Vaqt</th>
+            <th>Telefon</th>
+            
+        </tr>
+    </thead>
+    <tbody id="applicants-table">
+        {% for applicant in applicants %}
+            <tr>
+                <td>{{ applicant.first_name }}</td>
+                <td>{{ applicant.course }}</td>
+                <td>{{ applicant.preferred_time }}</td>
+                <td>{{ applicant.phone_number }}</td>
+                <td><a href="{% url 'transfer_applicant' applicant.id %}">Transfer</a></td>  
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- jQuery script -->
+
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    function debounce(func, wait) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                func.apply(context, args);
+            }, wait);
+        };
+    }
+    
+    $(document).ready(function() {
+        var filterApplicants = debounce(function() {
+            $.ajax({
+                url: '{% url "filter_applicants" %}',
+                data: $('#filter-form').serialize(),
+                success: function(data) {
+                    var table = $('#applicants-table');
+                    table.empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var row = '<tr>' +
+                                    '<td>' + data[i].first_name + '</td>' +
+                                    '<td>' + data[i].course__name + '</td>' +
+                                    '<td>' + data[i].preferred_time + '</td>' +
+                                    '<td>' + data[i].phone_number + '</td>' +
+
+                                '</tr>';
+                        table.append(row);
+                    }
+                }
+            });
+        }, 250);
+    
+        $('#filter-form').on('change keyup', filterApplicants);
+    });
+    
+</script>
+{% endblock script %}
